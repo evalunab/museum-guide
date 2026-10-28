@@ -1,0 +1,16 @@
+# Images WikiArt : licence inconnue, ne jamais committer
+data/
+
+# Poids de modèles (gros fichiers)
+*.pt
+*.pth
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+
+# Fichiers système
+desktop.ini
+.DS_Store
