@@ -66,3 +66,19 @@ autour de 30-35 %, dans la marge d'incertitude (±3 points). Le problème vient 
 un CNN (étape 3).
 
 ![Comparaison des remèdes](results/m2_curves_compare.png)
+
+## Étape 3 : ResNet-18 pré-entraîné (validation, 225 images)
+
+Script : `m3_resnet.py`. ResNet-18 avec poids ImageNet, images 128x128, dernière couche remplacée par un `nn.Linear` à 5 sorties.
+Boucle d'entraînement écrite à la main. Le test n'est toujours pas utilisé.
+
+| Variante | Paramètres entraînés | Val (meilleure époque) | Val finale | Train final | Durée |
+|---|---|---|---|---|---|
+| A : backbone gelé (30 époques) | 2 565 | 51.1 % (époque 9) | 50.7 % | 79.8 % | 401 s |
+| B : fine-tuning complet (8 époques, retournement d'images) | 11 179 077 | 57.8 % (époque 2) | 59.1 % | 99.7 % | 307 s |
+
+Variante retenue sur la plus petite perte de validation : B (1.066 contre 1.163).
+Coût de la variante B : 11 179 077 paramètres (44.7 Mo), 24.6 ms par image sur CPU (4 threads, une image à la fois).
+Pour comparaison, le MLP et la régression logistique plafonnent autour de 34 % sur la validation.
+
+![Courbes ResNet-18](results/m3_curves.png)
