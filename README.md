@@ -1,5 +1,7 @@
 # museum-guide
 
+> **Final version: this README and the code on `main` (tag `final`).** Tags `m0`-`m4` mark the end of each step and keep the README as it was at that time.
+
 Project for "Neural Networks & Deep Learning Foundations" (Albert School):
 a museum guide that recognises the style of a painting from a photo.
 
