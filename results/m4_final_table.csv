@@ -1,0 +1,4 @@
+model,test_acc,ci95,val_acc,params,size_mb,ms_per_image_1thread,ms_per_image_4threads,train_seconds
+Régression logistique,0.2889,0.0592,0.3422,15365,0.06,0.12,,0.5
+MLP (16 neurones),0.3022,0.0600,0.3422,49253,0.20,0.05,0.04,0.8
+ResNet-18 (layer4),0.6222,0.0634,0.5867,11179077,44.72,18.94,11.45,78.2
