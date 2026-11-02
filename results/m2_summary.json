@@ -1,0 +1,69 @@
+{
+  "initial_loss": 1.6247797012329102,
+  "ln5": 1.6094379124341003,
+  "overfit_one_batch_loss": 7.454371370840818e-05,
+  "baseline_best_epoch": 3,
+  "runs_summary": {
+    "base": {
+      "config": {},
+      "best_epoch": 3,
+      "min_val_loss": 1.6357989311218262,
+      "val_acc_at_best": 0.3377777777777778,
+      "final_train_acc": 0.9895238095238095,
+      "final_val_acc": 0.29333333333333333
+    },
+    "dropout 0.5": {
+      "config": {
+        "dropout": 0.5
+      },
+      "best_epoch": 3,
+      "min_val_loss": 1.600035309791565,
+      "val_acc_at_best": 0.28888888888888886,
+      "final_train_acc": 0.9257142857142857,
+      "final_val_acc": 0.3422222222222222
+    },
+    "weight decay 0.1": {
+      "config": {
+        "weight_decay": 0.1
+      },
+      "best_epoch": 3,
+      "min_val_loss": 1.63644540309906,
+      "val_acc_at_best": 0.3333333333333333,
+      "final_train_acc": 0.9895238095238095,
+      "final_val_acc": 0.30666666666666664
+    },
+    "petit (16 neurones)": {
+      "config": {
+        "hidden": 16
+      },
+      "best_epoch": 4,
+      "min_val_loss": 1.5566487312316895,
+      "val_acc_at_best": 0.3422222222222222,
+      "final_train_acc": 0.920952380952381,
+      "final_val_acc": 0.3466666666666667
+    },
+    "retournement d'images": {
+      "config": {
+        "flip": true
+      },
+      "best_epoch": 3,
+      "min_val_loss": 1.6467387676239014,
+      "val_acc_at_best": 0.3288888888888889,
+      "final_train_acc": 0.9171428571428571,
+      "final_val_acc": 0.29333333333333333
+    },
+    "dropout + wd + retournement": {
+      "config": {
+        "dropout": 0.5,
+        "weight_decay": 0.1,
+        "flip": true
+      },
+      "best_epoch": 15,
+      "min_val_loss": 1.5596739053726196,
+      "val_acc_at_best": 0.3422222222222222,
+      "final_train_acc": 0.7590476190476191,
+      "final_val_acc": 0.3377777777777778
+    }
+  },
+  "best_config": "petit (16 neurones)"
+}
