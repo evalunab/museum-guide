@@ -3,7 +3,11 @@ import json
 import time
 from pathlib import Path
 
+import matplotlib
+matplotlib.use("Agg")  # pas de fenêtre : on enregistre directement l'image
+import matplotlib.pyplot as plt
 import torch
+from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix
 from torch import nn
 from torch.utils.data import DataLoader, TensorDataset
 
@@ -19,7 +23,7 @@ EPOCHS = 30
 BATCH = 64
 
 
-class DenseNet(nn.Module):
+class MLP(nn.Module):
     """Image aplatie -> couche cachée (ReLU) -> 5 scores (un par style)."""
 
     def __init__(self, n_inputs, hidden, n_classes):
@@ -63,7 +67,7 @@ if __name__ == "__main__":
     majority = torch.bincount(y[train_idx]).max().item() / len(train_idx)
     print(f"Référence 'hasard' (classe majoritaire) : {majority:.1%}")
 
-    model = DenseNet(3 * IMG_SIZE * IMG_SIZE, HIDDEN, len(classes))
+    model = MLP(3 * IMG_SIZE * IMG_SIZE, HIDDEN, len(classes))
     n_params = sum(p.numel() for p in model.parameters())
     print(f"Paramètres du modèle : {n_params}")
     loss_fn = nn.CrossEntropyLoss()
@@ -92,7 +96,20 @@ if __name__ == "__main__":
     print(f"Entraînement terminé en {time.time() - t0:.0f} s")
     print(f"Meilleure exactitude validation : {max(history['val_acc']):.1%} (époque {history['val_acc'].index(max(history['val_acc'])) + 1})")
 
+    # --- Matrice de confusion sur la VALIDATION (modèle de la dernière époque) : lignes = vrai style, colonnes = prédit
+    model.eval()
+    with torch.no_grad():
+        val_pred = model(X[val_idx]).argmax(dim=1)
+    cm = confusion_matrix(y[val_idx].numpy(), val_pred.numpy())
+    print("Matrice de confusion (validation), lignes = vrai style, colonnes = prédit :")
+    print(cm)
     Path("results").mkdir(exist_ok=True)
+    fig, ax = plt.subplots(figsize=(6, 5))
+    ConfusionMatrixDisplay(cm, display_labels=classes).plot(ax=ax, cmap="Blues", xticks_rotation=45, colorbar=False)
+    ax.set_title("MLP : matrice de confusion (validation)")
+    fig.tight_layout()
+    fig.savefig("results/m1_confusion_val.png", dpi=150)
+
     json.dump({"config": {"img_size": IMG_SIZE, "hidden": HIDDEN, "lr": LR, "epochs": EPOCHS, "batch": BATCH},
                "majority_baseline": majority, "n_params": n_params, "history": history},
               open("results/m1_history.json", "w"), indent=2)
