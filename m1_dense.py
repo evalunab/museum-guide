@@ -26,14 +26,15 @@ BATCH = 64
 class MLP(nn.Module):
     """Image aplatie -> couche cachée (ReLU) -> 5 scores (un par style)."""
 
-    def __init__(self, n_inputs, hidden, n_classes):
+    def __init__(self, n_inputs, hidden, n_classes, dropout=0.0):
         super().__init__()
         self.fc1 = nn.Linear(n_inputs, hidden)
+        self.drop = nn.Dropout(dropout)  # éteint au hasard une partie des neurones pendant l'entraînement (0 = rien)
         self.fc2 = nn.Linear(hidden, n_classes)
 
     def forward(self, x):
         x = x.flatten(start_dim=1)       # (B, 3, 32, 32) -> (B, 3072)
-        x = torch.relu(self.fc1(x))
+        x = self.drop(torch.relu(self.fc1(x)))
         return self.fc2(x)
 
 
